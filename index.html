@@ -21,9 +21,7 @@
         
         // Твои видео (замени ссылки на реальные TikTok/YouTube)
         const videos = [
-            "https://assets.mixkit.co/videos/preview/mixkit-going-down-a-curved-highway-down-a-mountain-41576-large.mp4",
-            "https://assets.mixkit.co/videos/preview/mixkit-man-under-multicolored-lights-1237-large.mp4",
-            "https://assets.mixkit.co/videos/preview/mixkit-pink-and-blue-ink-1195-large.mp4"
+            https://youtu.be/iQuAtbi9UKo?si=SPg9H9ixg5LP6tMH
         ];
         
         let current = 0;
@@ -49,6 +47,23 @@
         
         // Старт
         playVideo(0);
+        // Показ номера видео
+const counter = document.createElement('div');
+counter.style = 'position:fixed; top:20px; right:20px; color:white; z-index:1000';
+document.body.appendChild(counter);
+
+function updateCounter() {
+    counter.textContent = `${current + 1}/${videos.length}`;
+}
+
+// Автопереключение через 15 секунд
+setInterval(() => {
+    current = (current + 1) % videos.length;
+    playVideo(current);
+    updateCounter();
+}, 15000);
+
+updateCounter();
     </script>
 </body>
 </html>
