@@ -1,47 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<style>
-  body, html { margin:0; padding:0; overflow:hidden; background:black; }
-  video { width:100vw; height:100vh; object-fit:cover; }
-</style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { margin: 0; background: #000; }
+        video { width: 100%; height: 100vh; }
+        .swipe-up { 
+            position: fixed; bottom: 20px; width: 100%; 
+            text-align: center; color: white; font-size: 24px;
+        }
+    </style>
 </head>
-
 <body>
-  <video id="video" playsinline autoplay muted></video>
-
-<script>
-  const tg = window.Telegram.WebApp;
-  tg.expand();
-
-  const videos = [
-    https://www.tiktok.com/@mellstroyen77/video/7573361967927233814?is_from_webapp=1&sender_device=pc
-  ];
-
-  let index = 0;
-  const video = document.getElementById("video");
-
-  function loadVideo() {
-    video.src = videos[index];
-    video.play();
-  }
-
-  loadVideo();
-
-  let startY = 0;
-  window.addEventListener("touchstart", e => startY = e.touches[0].clientY);
-  window.addEventListener("touchend", e => {
-    const endY = e.changedTouches[0].clientY;
-    if (startY - endY > 60) {
-      index = (index + 1) % videos.length;
-      loadVideo();
-    }
-    if (endY - startY > 60) {
-      index = (index - 1 + videos.length) % videos.length;
-      loadVideo();
-    }
-  });
-</script>
+    <video id="player" controls autoplay></video>
+    <div class="swipe-up">⬆️ Свайп вверх</div>
+    
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // Твои видео (замени ссылки на реальные TikTok/YouTube)
+        const videos = [
+            "https://assets.mixkit.co/videos/preview/mixkit-going-down-a-curved-highway-down-a-mountain-41576-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-man-under-multicolored-lights-1237-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-pink-and-blue-ink-1195-large.mp4"
+        ];
+        
+        let current = 0;
+        const player = document.getElementById('player');
+        
+        function playVideo(index) {
+            player.src = videos[index];
+            player.play();
+        }
+        
+        // Свайп вверх
+        let startY;
+        document.addEventListener('touchstart', e => {
+            startY = e.touches[0].clientY;
+        });
+        
+        document.addEventListener('touchend', e => {
+            if(startY - e.changedTouches[0].clientY > 50) {
+                current = (current + 1) % videos.length;
+                playVideo(current);
+            }
+        });
+        
+        // Старт
+        playVideo(0);
+    </script>
 </body>
 </html>
